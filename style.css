@@ -1,0 +1,15 @@
+.container {
+    max-width: 600px;
+    min-width: 350px;
+}
+
+.logo {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 146px;
+}
+
+table {
+    margin-left: 25px;
+}

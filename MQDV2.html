@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+
+    <title>Sotax MQD: Cheaper in the long run</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="A calculator to find out how much money MQD could save you" />
+    <script src="https://code.jquery.com/jquery-2.0.3.min.js"></script>
+    <script src="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet" />
+    <link href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <img class="logo" src="http://www.sotax.com/typo3conf/ext/ww_template/images/logo_sotaxgroup.png" />
+        <div>
+            <h1 class="text-center">MQD Cost Comparison</h1>
+            <p>
+                SOTAX MQD, is a new universal tool for qualification of all brands of USP 1 and 2 dissolution testers.
+            </p>
+            <p>
+                To help illistrate how much more value can provide than the alternatives we have developed this calcuator.
+                Simply specify the values that best represent your lab's costs to see how much SOTAX MQD could save you.
+            </p>
+            <h2>Global Variables</h2>
+            <table id="globalVaraibles" class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Assumption</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr title="Consider not only salary but associated costs (benefits, etc.)">
+                        <td>Hourly Wage</td>
+                        <td>
+                            <a class="editable" id="hourlyCost">80</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Wage multiplier</td>
+                        <td>
+                            <a class="editable" id="hourlyMultiplier">1.35</a>
+                        </td>
+                    </tr>
+                    <tr title="Assumes 10 tests per 250 mg">
+                        <td>Cost of Prednisone Reference Standard (250 mg)</td>
+                        <td>
+                            <a class="editable" id="costOfStandard">215</a>
+                        </td>
+                    </tr>
+                    <tr title="Assumes 5 tests per 30 tablets">
+                        <td>Cost of Prednisone Tablets (Qty = 30)</td>
+                        <td><a class="editable" id="costOfTablets">249</a></td>
+                    </tr>
+                    <tr title="Assumes 50% increase in time and 6 additional Prednisone tablets when Stage 2 is tested">
+                        <td>Percentage of PVT Tests Requiring Stage 2</td>
+                        <td><a class="editable" id="percentageNeedingStageTwo">50</a></td>
+                    </tr>
+                    <tr>
+                        <td>Number of Dissolution Baths to Qualify</td>
+                        <td><a id="bathsToQual" class="editable">1</a></td>
+                    </tr>
+                    <tr>
+                        <td>Number of Times per Year Qualifiction Required</td>
+                        <td><a id="qualsPerYear" class="editable">1</a></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2>Process Variables</h2>
+            <table id="processVaraibles" class="table table-striped">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th title="Assumes bath is dedicated to either Paddles or Baskets">
+                            PVT (USP I OR II)
+                        </th>
+                        <th title="Assumes bath will be qualified for both paddles and baskets">
+                            PVT (USP I AND II)
+                        </th>
+                        <th title="Consider whether bath is qualified for paddles and/or baskets and the qualification time implication">
+                            Enhanced Mechanical Qualification (manual toolkits)
+                        </th>
+                        <th>
+                            Qualification with MQD
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="qualTime" title="Consider preparation and testing time">
+                        <td>Time to Complete Qualification (Hours)</td>
+                        <td><a class="editable pvtOr">4</a></td>
+                        <td><a class="editable pvtAnd">8</a></td>
+                        <td><a class="editable mt">2</a></td>
+                        <td><a class="editable mqd">.5</a></td>
+                    </tr>
+                    <tr class="docTime" title="Consider transcription, data calculation, review, etc.">
+                        <td>Documentation Time (Hours)</td>
+                        <td><a class="editable pvtOr">2</a></td>
+                        <td><a class="editable pvtAnd">2</a></td>
+                        <td><a class="editable mt">2</a></td>
+                        <td title="No data transcription required.  Data calculated and evaluated automatically.  Reports need to be printed or saved as pdf"><a class="editable mqd">.1</a></td>
+                    </tr>
+                    <tr class="qualToInvPercent" title="Consider investigations due to documentation/calculation issues, transcription errors, analyst error.">
+                        <td>Percentage of Qualifications Leading to Investigation</td>
+                        <td><a class="editable pvtOr">10</a></td>
+                        <td><a class="editable pvtAnd">10</a></td>
+                        <td><a class="editable mt">10</a></td>
+                        <td><a class="editable mqd">1</a></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2>Costs</h2>
+            <table id="costTable" class="table table-striped">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>PVT (USP I OR II)</th>
+                        <th>PVT (USP I AND II)</th>
+                        <th>Enhanced Mechanical Qualification (manual toolkits)</th>
+                        <th>Qualification with MQD</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="costPerTest">
+                        <td>Estimated Average Cost/test</td>
+                        <td class="pvtOr"></td>
+                        <td class="pvtAnd"></td>
+                        <td class="mt"></td>
+                        <td class="mqd"></td>
+                    </tr>
+                    <tr class="costPerYear">
+                        <td>Estimated Average Cost/year</td>
+                        <td class="pvtOr"></td>
+                        <td class="pvtAnd"></td>
+                        <td class="mt"></td>
+                        <td class="mqd"></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2>Savings</h2>
+            <table id="savingsTable" class="table table-striped">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>PVT (USP I OR II)</th>
+                        <th>PVT (USP I AND II)</th>
+                        <th>Enhanced Mechanical Qualification (manual toolkits)</th>
+                        <th>Qualification with MQD</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="pvtOr">
+                        <td>Annual Savings vs PVT (if USP I or II)</td>
+                        <td>--</td>
+                        <td>--  </td>
+                        <td class="mt"></td>
+                        <td class="mqd"></td>
+                    </tr>
+                    <tr class="pvtAnd">
+                        <td>Annual Savings vs PVT (if USP I and II)</td>
+                        <td>--</td>
+                        <td>--</td>
+                        <td class="mt"></td>
+                        <td class="mqd"></td>
+                    </tr>
+                    <tr class="mt">
+                        <td>Annual Savings vs MQ (manual tools)</td>
+                        <td>--</td>
+                        <td>--</td>
+                        <td>--</td>
+                        <td class="mqd"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+        <script>
+            $.fn.editable.defaults.mode = 'popup';
+            $(document).ready(function () {
+                $('.editable').editable('option', 'validate', function(v) {
+                    if (!v) return 'A value is required';
+                    if (isNaN(v)) return 'Must be a number';
+                    if (v <= 0) return 'Must be positive';
+                });
+                $('.editable').on('hidden', function (e, params) {
+                    recalc();
+                }); 
+                recalc();
+            });
+
+            function recalc() {
+                var methods = ["pvtOr", "pvtAnd", "mt", "mqd"];
+                var bathsNeeded = [1, 2, 0, 0];
+                var stageTwoMultiple = [1, 1, 0, 0];
+                var loadedCost = $("#hourlyCost").text() * $("#hourlyMultiplier").text();
+                var costOfStandard = $("#costOfStandard").text() / 10;
+                var costofTablets = $("#costOfTablets").text() / 5;
+                var costs = $.map(methods, function (method, index) {
+                    var qualificationTime = Number($("#processVaraibles .qualTime ." + method).text());
+                    var documentationTime = Number($("#processVaraibles .docTime ." + method).text());
+                    var laborCosts = (qualificationTime + documentationTime) * loadedCost;
+                    var bathCosts = (costOfStandard + costofTablets) * bathsNeeded[index];
+                    var stage2Costs = (costofTablets * bathsNeeded[index] + qualificationTime * loadedCost) * (Number($("#percentageNeedingStageTwo").text()) / 100) * stageTwoMultiple[index];
+                    var costOfInvestigation = laborCosts * 4 * Number($("#processVaraibles .qualToInvPercent ." + method).text()) / 100;
+                    return laborCosts + bathCosts + stage2Costs + costOfInvestigation;
+                });
+                var yearlyMultiple = Number($("#bathsToQual").text()) * Number($("#qualsPerYear").text());
+                $.map(methods, function (method, index) {
+                    $("#costTable .costPerTest ." + method).text(costs[index].toLocaleString("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 2 }));
+                    $("#costTable .costPerYear ." + method).text((costs[index] * yearlyMultiple).toLocaleString("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 2 }));
+                    $.map(methods, function (method2, index2) {
+                        if (index2 > index && index2 > 1) {
+                            $("#savingsTable ." + method + " ." + method2).text(((costs[index] - costs[index2]) * yearlyMultiple).toLocaleString("en-US", {style: "currency", currency: "USD", maximumFractionDigits: 0}));
+                        }
+                    });
+                });
+
+                
+                
+            }
+        </script>
+</body>
+</html>
