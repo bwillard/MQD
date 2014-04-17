@@ -215,17 +215,22 @@
                 });
                 var yearlyMultiple = Number($("#bathsToQual").text()) * Number($("#qualsPerYear").text());
                 $.map(methods, function (method, index) {
-                    $("#costTable .costPerTest ." + method).text(costs[index].toLocaleString("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 2 }));
-                    $("#costTable .costPerYear ." + method).text((costs[index] * yearlyMultiple).toLocaleString("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 2 }));
+                    $("#costTable .costPerTest ." + method).text(formatCurrency(costs[index]));
+                    $("#costTable .costPerYear ." + method).text(formatCurrency(costs[index] * yearlyMultiple));
                     $.map(methods, function (method2, index2) {
                         if (index2 > index && index2 > 1) {
-                            $("#savingsTable ." + method + " ." + method2).text(((costs[index] - costs[index2]) * yearlyMultiple).toLocaleString("en-US", {style: "currency", currency: "USD", maximumFractionDigits: 0}));
+                            $("#savingsTable ." + method + " ." + method2).text(formatCurrency(((costs[index] - costs[index2]) * yearlyMultiple)));
                         }
                     });
                 });
+            }
 
-                
-                
+            function formatCurrency(x) {
+                x = x.toFixed(2).toString();
+                var pattern = /(-?\d+)(\d{3})/;
+                while (pattern.test(x))
+                    x = x.replace(pattern, "$1,$2");
+                return "$" + x;
             }
         </script>
 </body>
