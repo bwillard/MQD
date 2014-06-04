@@ -26,41 +26,10 @@
                 To help illistrate how much more value can provide than the alternatives we have developed this calcuator.
                 Simply specify the values that best represent your lab's costs to see how much SOTAX MQD could save you.
             </p>
-            <h2>Global Variables</h2>
-            <table id="globalVaraibles" class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Assumption</th>
-                        <th>Value</th>
-                    </tr>
-                </thead>
+
+            <h2>Your Details</h2>
+            <table id="simple-settings" class="table table-striped">
                 <tbody>
-                    <tr title="Consider not only salary but associated costs (benefits, etc.)">
-                        <td>Hourly Wage</td>
-                        <td>
-                            <a class="editable" id="hourlyCost">80</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Wage multiplier</td>
-                        <td>
-                            <a class="editable" id="hourlyMultiplier">1.35</a>
-                        </td>
-                    </tr>
-                    <tr title="Assumes 10 tests per 250 mg">
-                        <td>Cost of Prednisone Reference Standard (250 mg)</td>
-                        <td>
-                            <a class="editable" id="costOfStandard">215</a>
-                        </td>
-                    </tr>
-                    <tr title="Assumes 5 tests per 30 tablets">
-                        <td>Cost of Prednisone Tablets (Qty = 30)</td>
-                        <td><a class="editable" id="costOfTablets">249</a></td>
-                    </tr>
-                    <tr title="Assumes 50% increase in time and 6 additional Prednisone tablets when Stage 2 is tested">
-                        <td>Percentage of PVT Tests Requiring Stage 2</td>
-                        <td><a class="editable" id="percentageNeedingStageTwo">50</a></td>
-                    </tr>
                     <tr>
                         <td>Number of Dissolution Baths to Qualify</td>
                         <td><a id="bathsToQual" class="editable">5</a></td>
@@ -72,120 +41,179 @@
                 </tbody>
             </table>
 
-            <h2>Process Variables</h2>
-            <table id="processVaraibles" class="table table-striped">
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th title="Assumes bath is dedicated to either Paddles or Baskets">
-                            PVT (USP I OR II)
-                        </th>
-                        <th title="Assumes bath will be qualified for both paddles and baskets">
-                            PVT (USP I AND II)
-                        </th>
-                        <th title="Consider whether bath is qualified for paddles and/or baskets and the qualification time implication">
-                            Enhanced Mechanical Qualification (manual toolkits)
-                        </th>
-                        <th>
-                            Qualification with MQD
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="qualTime" title="Consider preparation and testing time">
-                        <td>Time to Complete Qualification (Hours)</td>
-                        <td><a class="editable pvtOr">4</a></td>
-                        <td><a class="editable pvtAnd">8</a></td>
-                        <td><a class="editable mt">2</a></td>
-                        <td><a class="editable mqd">.5</a></td>
-                    </tr>
-                    <tr class="docTime" title="Consider transcription, data calculation, review, etc.">
-                        <td>Documentation Time (Hours)</td>
-                        <td><a class="editable pvtOr">2</a></td>
-                        <td><a class="editable pvtAnd">2</a></td>
-                        <td><a class="editable mt">2</a></td>
-                        <td title="No data transcription required.  Data calculated and evaluated automatically.  Reports need to be printed or saved as pdf"><a class="editable mqd">.1</a></td>
-                    </tr>
-                    <tr class="qualToInvPercent" title="Consider investigations due to documentation/calculation issues, transcription errors, analyst error.">
-                        <td>Percentage of Qualifications Leading to Investigation</td>
-                        <td><a class="editable pvtOr">10</a></td>
-                        <td><a class="editable pvtAnd">10</a></td>
-                        <td><a class="editable mt">10</a></td>
-                        <td><a class="editable mqd">1</a></td>
-                    </tr>
-                </tbody>
-            </table>
+            <button id="computeButton" class="btn btn-primary btn-lg" onclick="$('#results').toggle();$('#computeButton').toggle();">
+              Compute Savings
+            </button>
+            
+            <div id="results">
+                <h2>Savings</h2>
+                <table id="savingsTable" class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Enhanced Mechanical Qualification (manual toolkits)</th>
+                            <th>Qualification with MQD</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="pvtOr">
+                            <td>Annual Savings vs PVT (if USP I or II)</td>
+                            <td class="mt"></td>
+                            <td class="mqd"></td>
+                        </tr>
+                        <tr class="pvtAnd">
+                            <td>Annual Savings vs PVT (if USP I and II)</td>
+                            <td class="mt"></td>
+                            <td class="mqd"></td>
+                        </tr>
+                        <tr class="mt">
+                            <td>Annual Savings vs MQ (manual tools)</td>
+                            <td>--</td>
+                            <td class="mqd"></td>
+                        </tr>
+                    </tbody>
+                </table>
 
-            <h2>Costs</h2>
-            <table id="costTable" class="table table-striped">
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th>PVT (USP I OR II)</th>
-                        <th>PVT (USP I AND II)</th>
-                        <th>Enhanced Mechanical Qualification (manual toolkits)</th>
-                        <th>Qualification with MQD</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="costPerTest">
-                        <td>Estimated Average Cost/test</td>
-                        <td class="pvtOr"></td>
-                        <td class="pvtAnd"></td>
-                        <td class="mt"></td>
-                        <td class="mqd"></td>
-                    </tr>
-                    <tr class="costPerYear">
-                        <td>Estimated Average Cost/year</td>
-                        <td class="pvtOr"></td>
-                        <td class="pvtAnd"></td>
-                        <td class="mt"></td>
-                        <td class="mqd"></td>
-                    </tr>
-                </tbody>
-            </table>
+                <h2>Costs</h2>
+                <table id="costTable" class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>PVT (USP I OR II)</th>
+                            <th>PVT (USP I AND II)</th>
+                            <th>Enhanced Mechanical Qualification (manual toolkits)</th>
+                            <th>Qualification with MQD</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="costPerTest">
+                            <td>Estimated Average Cost/test</td>
+                            <td class="pvtOr"></td>
+                            <td class="pvtAnd"></td>
+                            <td class="mt"></td>
+                            <td class="mqd"></td>
+                        </tr>
+                        <tr class="costPerYear">
+                            <td>Estimated Average Cost/year</td>
+                            <td class="pvtOr"></td>
+                            <td class="pvtAnd"></td>
+                            <td class="mt"></td>
+                            <td class="mqd"></td>
+                        </tr>
+                    </tbody>
+                </table>
 
-            <h2>Savings</h2>
-            <table id="savingsTable" class="table table-striped">
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th>Enhanced Mechanical Qualification (manual toolkits)</th>
-                        <th>Qualification with MQD</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="pvtOr">
-                        <td>Annual Savings vs PVT (if USP I or II)</td>
-                        <td class="mt"></td>
-                        <td class="mqd"></td>
-                    </tr>
-                    <tr class="pvtAnd">
-                        <td>Annual Savings vs PVT (if USP I and II)</td>
-                        <td class="mt"></td>
-                        <td class="mqd"></td>
-                    </tr>
-                    <tr class="mt">
-                        <td>Annual Savings vs MQ (manual tools)</td>
-                        <td>--</td>
-                        <td class="mqd"></td>
-                    </tr>
-                </tbody>
-            </table>
+            <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">
+              Advanced Settings
+            </button>
+            </div>
         </div>
 
+        <div class="modal fade" id="myModal">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h2 class="modal-title">Computation Details</h2>
+              </div>
+              <div class="modal-body">
+                <h3>Global Variables</h3>
+                <table id="globalVaraibles" class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Assumption</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr title="Consider not only salary but associated costs (benefits, etc.)">
+                            <td>Hourly Wage</td>
+                            <td>
+                                <a class="editable" id="hourlyCost">80</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Wage multiplier</td>
+                            <td>
+                                <a class="editable" id="hourlyMultiplier">1.35</a>
+                            </td>
+                        </tr>
+                        <tr title="Assumes 10 tests per 250 mg">
+                            <td>Cost of Prednisone Reference Standard (250 mg)</td>
+                            <td>
+                                <a class="editable" id="costOfStandard">215</a>
+                            </td>
+                        </tr>
+                        <tr title="Assumes 5 tests per 30 tablets">
+                            <td>Cost of Prednisone Tablets (Qty = 30)</td>
+                            <td><a class="editable" id="costOfTablets">249</a></td>
+                        </tr>
+                        <tr title="Assumes 50% increase in time and 6 additional Prednisone tablets when Stage 2 is tested">
+                            <td>Percentage of PVT Tests Requiring Stage 2</td>
+                            <td><a class="editable" id="percentageNeedingStageTwo">50</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Process Variables</h3>
+                <table id="processVaraibles" class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th title="Assumes bath is dedicated to either Paddles or Baskets">
+                                PVT (USP I OR II)
+                            </th>
+                            <th title="Assumes bath will be qualified for both paddles and baskets">
+                                PVT (USP I AND II)
+                            </th>
+                            <th title="Consider whether bath is qualified for paddles and/or baskets and the qualification time implication">
+                                Enhanced Mechanical Qualification (manual toolkits)
+                            </th>
+                            <th>
+                                Qualification with MQD
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="qualTime" title="Consider preparation and testing time">
+                            <td>Time to Complete Qualification (Hours)</td>
+                            <td><a class="editable pvtOr">4</a></td>
+                            <td><a class="editable pvtAnd">8</a></td>
+                            <td><a class="editable mt">2</a></td>
+                            <td><a class="editable mqd">.5</a></td>
+                        </tr>
+                        <tr class="docTime" title="Consider transcription, data calculation, review, etc.">
+                            <td>Documentation Time (Hours)</td>
+                            <td><a class="editable pvtOr">2</a></td>
+                            <td><a class="editable pvtAnd">2</a></td>
+                            <td><a class="editable mt">2</a></td>
+                            <td title="No data transcription required.  Data calculated and evaluated automatically.  Reports need to be printed or saved as pdf"><a class="editable mqd">.1</a></td>
+                        </tr>
+                        <tr class="qualToInvPercent" title="Consider investigations due to documentation/calculation issues, transcription errors, analyst error.">
+                            <td>Percentage of Qualifications Leading to Investigation</td>
+                            <td><a class="editable pvtOr">10</a></td>
+                            <td><a class="editable pvtAnd">10</a></td>
+                            <td><a class="editable mt">10</a></td>
+                            <td><a class="editable mqd">1</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+              </div>
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
 
         <script>
             $.fn.editable.defaults.mode = 'popup';
             $(document).ready(function () {
-                $('.editable').editable('option', 'validate', function(v) {
+                $('.editable, .editable-simple').editable('option', 'validate', function (v) {
                     if (!v) return 'A value is required';
                     if (isNaN(v)) return 'Must be a number';
                     if (v <= 0) return 'Must be positive';
                 });
                 $('.editable').on('hidden', function (e, params) {
                     recalc();
-                }); 
+                });
                 recalc();
             });
 
