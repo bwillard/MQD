@@ -10,6 +10,7 @@
     <script src="https://code.jquery.com/jquery-2.0.3.min.js"></script>
     <script src="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet" />
     <link href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="style.css" rel="stylesheet">
@@ -46,6 +47,11 @@
             </button>
             
             <div id="results">
+                <p id="headline-savings">
+                    You could be saving between <span id="low-savings"></span> and <span id="high-savings"></span> by switching to Sotax MQD.
+                </p>
+                </hr>
+                <hr />
                 <h2>Savings</h2>
                 <table id="savingsTable" class="table table-striped">
                     <thead>
@@ -74,38 +80,16 @@
                     </tbody>
                 </table>
 
-                <h2>Costs</h2>
-                <table id="costTable" class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th>PVT (USP I OR II)</th>
-                            <th>PVT (USP I AND II)</th>
-                            <th>Enhanced Mechanical Qualification (manual toolkits)</th>
-                            <th>Qualification with MQD</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="costPerTest">
-                            <td>Estimated Average Cost/test</td>
-                            <td class="pvtOr"></td>
-                            <td class="pvtAnd"></td>
-                            <td class="mt"></td>
-                            <td class="mqd"></td>
-                        </tr>
-                        <tr class="costPerYear">
-                            <td>Estimated Average Cost/year</td>
-                            <td class="pvtOr"></td>
-                            <td class="pvtAnd"></td>
-                            <td class="mt"></td>
-                            <td class="mqd"></td>
-                        </tr>
-                    </tbody>
-                </table>
-
-            <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">
-              Advanced Settings
-            </button>
+                <h2>Costs Per Year</h2>
+                <div id="cost-chart"></div>
+                <hr />
+                <p>
+                    If you are interested in customizing assumptions that were used to come up with these calculations
+                    please click on advanced settings below.
+                </p>
+                <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">
+                  Advanced Settings
+                </button>
             </div>
         </div>
 
@@ -205,6 +189,8 @@
 
         <script>
             $.fn.editable.defaults.mode = 'popup';
+            google.load("visualization", "1", { packages: ["corechart"] });
+            google.setOnLoadCallback(onChartLoad);
             $(document).ready(function () {
                 $('.editable, .editable-simple').editable('option', 'validate', function (v) {
                     if (!v) return 'A value is required';
@@ -214,8 +200,19 @@
                 $('.editable').on('hidden', function (e, params) {
                     recalc();
                 });
+                docReady = true;
                 recalc();
             });
+
+            var chartLoaded = false;
+            var docReady = false;
+
+            function onChartLoad() {
+                chartLoaded = true;
+                if (docReady) {
+                    recalc();
+                }
+            }
 
             function recalc() {
                 var methods = ["pvtOr", "pvtAnd", "mt", "mqd"];
@@ -234,15 +231,40 @@
                     return laborCosts + bathCosts + stage2Costs + costOfInvestigation;
                 });
                 var yearlyMultiple = Number($("#bathsToQual").text()) * Number($("#qualsPerYear").text());
+                var costsPerMethod = {};
+                var minSavings = Number.MAX_VALUE;
+                var maxSavings = 0;
                 $.map(methods, function (method, index) {
-                    $("#costTable .costPerTest ." + method).text(formatCurrency(costs[index]));
-                    $("#costTable .costPerYear ." + method).text(formatCurrency(costs[index] * yearlyMultiple));
+                    costsPerMethod[method] = +(costs[index] * yearlyMultiple).toFixed(2);
                     $.map(methods, function (method2, index2) {
                         if (index2 > index && index2 > 1) {
-                            $("#savingsTable ." + method + " ." + method2).text(formatCurrency(((costs[index] - costs[index2]) * yearlyMultiple)));
+                            var savings = (costs[index] - costs[index2]) * yearlyMultiple;
+                            minSavings = Math.min(savings, minSavings);
+                            maxSavings = Math.max(savings, maxSavings);
+                            $("#savingsTable ." + method + " ." + method2).text(formatCurrency((savings)));
                         }
                     });
                 });
+                $("#low-savings").text(formatCurrency(minSavings));
+                $("#high-savings").text(formatCurrency(maxSavings));
+                if (chartLoaded) {
+                    var data = google.visualization.arrayToDataTable([
+                      ['Method', 'Cost', ],
+                      ['PVT (USP I and II)', costsPerMethod.pvtAnd],
+                      ['PVT (USP I or II)', costsPerMethod.pvtOr],
+                      ['MQ (manual toolkit)', costsPerMethod.mt],
+                      ['MQD', costsPerMethod.mqd]
+                    ]);
+
+                    var options = {
+                        vAxis: { format: '$#,###' },
+                        legend: { position: "none" },
+                        width: 500
+                    };
+
+                    var chart = new google.visualization.ColumnChart(document.getElementById('cost-chart'));
+                    chart.draw(data, options);
+                }
             }
 
             function formatCurrency(x) {
@@ -252,6 +274,7 @@
                     x = x.replace(pattern, "$1,$2");
                 return "$" + x;
             }
+
         </script>
 </body>
 </html>
