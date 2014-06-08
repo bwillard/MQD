@@ -6,9 +6,9 @@ body, h1, h2, h3, h4, h5 {
 }
 
 .container {
-    min-width: 320px;
-    max-width: 640px;
+    max-width: 480px;
     padding-bottom: 25px;
+    padding-top: 25px;
 }
 
 .logo {
@@ -37,4 +37,30 @@ body, h1, h2, h3, h4, h5 {
 
 #simple-settings {
     min-width: 250px;
+}
+
+.short-text {
+        display: none;
+    }
+
+    .long-text {
+        display: initial;
+    }
+
+@media only screen 
+and (min-width : 320px) 
+and (max-width : 480px) {
+    .container {
+        width: 315px;
+        padding-top: 5px;
+        word-wrap:break-word;
+    }
+
+    .short-text {
+        display: initial;
+    }
+
+    .long-text {
+        display: none;
+    }
 }

@@ -20,23 +20,38 @@
         <img class="logo" src="http://www.sotax.com/typo3conf/ext/ww_template/images/logo_sotaxgroup.png" width="146" height="31" alt="Sotax logo"/>
         <div>
             <h1 class="text-center">MQD Cost Comparison</h1>
-            <p>
-                SOTAX MQD, is a new universal tool for qualification of all brands of USP 1 and 2 dissolution testers.
-            </p>
-            <p>
-                To help illustrate how much more value can provide than the alternatives we have developed this calculator.
-                Simply specify the values that best represent your lab's costs to see how much SOTAX MQD could save you.
-            </p>
-
+            <div class="long-text">
+                <p>
+                    SOTAX MQD, is a new universal tool for qualification of all brands of USP 1 and 2 dissolution testers.
+                </p>
+                <p>
+                    To help illustrate how much more value it can provide than the alternatives we have developed this calculator.
+                    Simply specify the values that best represent your lab's costs to see how much SOTAX MQD could save you.
+                </p>
+            </div>
+            <div class="short-text">
+                <p>
+                    SOTAX MQD, is a tool for qualification of all brands of USP 1 and 2 dissolution testers.
+                </p>
+                <p>
+                    To compute how much you can save versus your current method simply enter the appriate values below.
+                </p>
+            </div>
             <h2>Your Details</h2>
             <table id="simple-settings" class="table table-striped">
                 <tbody>
                     <tr>
-                        <td>Number of Dissolution Baths to Qualify</td>
+                        <td>
+                            <span class="long-text">Number of Dissolution Baths to Qualify</span>
+                            <span class="short-text"># of Baths to Qualify</span>
+                        </td>
                         <td><a id="bathsToQual" class="editable">5</a></td>
                     </tr>
                     <tr>
-                        <td>Number of Times per Year Qualifiction Required</td>
+                        <td>
+                            <span class="long-text">Number of Times per Year Qualifiction Required</span>
+                            <span class="short-text"># of Qualifiction/Year</span>
+                        </td>
                         <td><a id="qualsPerYear" class="editable">2</a></td>
                     </tr>
                 </tbody>
@@ -53,7 +68,7 @@
                     You could be saving between <span id="low-savings"></span> and <span id="high-savings"></span> annually by switching to Sotax MQD.
                 </p>
                 <hr />
-                <h2>Savings</h2>
+                <h2>Annual Savings</h2>
                 <table id="savingsTable" class="table table-striped">
                     <thead>
                         <tr>
@@ -64,17 +79,17 @@
                     </thead>
                     <tbody>
                         <tr class="pvtOr">
-                            <td>Annual Savings vs PVT (if USP I or II)</td>
+                            <td>vs PVT (if USP I or II)</td>
                             <td class="mt"></td>
                             <td class="mqd"></td>
                         </tr>
                         <tr class="pvtAnd">
-                            <td>Annual Savings vs PVT (if USP I and II)</td>
+                            <td>vs PVT (if USP I and II)</td>
                             <td class="mt"></td>
                             <td class="mqd"></td>
                         </tr>
                         <tr class="mt">
-                            <td>Annual Savings vs MQ (manual tools)</td>
+                            <td>vs MQ (manual tools)</td>
                             <td>--</td>
                             <td class="mqd"></td>
                         </tr>
@@ -253,13 +268,14 @@
                 if (chartLoaded) {
                     var data = google.visualization.arrayToDataTable([
                       ['Method', 'Cost', ],
-                      ['PVT (USP I and II)', costsPerMethod.pvtAnd],
-                      ['PVT (USP I or II)', costsPerMethod.pvtOr],
-                      ['MQ (manual toolkit)', costsPerMethod.mt],
+                      ['USP I and II', costsPerMethod.pvtAnd],
+                      ['USP I or II', costsPerMethod.pvtOr],
+                      ['Manual', costsPerMethod.mt],
                       ['MQD', costsPerMethod.mqd]
                     ]);
 
                     var options = {
+                        hAxis: { maxTextLines: 3, maxAlternation:15},
                         vAxis: { format: '$#,###' },
                         legend: { position: "none" },
                         width: Math.max(320, Math.min(500, $(document).width()))
