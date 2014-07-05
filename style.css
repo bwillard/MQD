@@ -44,6 +44,7 @@ body, h1, h2, h3, h4, h5 {
     margin-left: 5px;
     height: 16px;
     width: 16px;
+    cursor: pointer;
 }
 
 .short-text {

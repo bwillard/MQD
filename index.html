@@ -221,8 +221,9 @@
             google.setOnLoadCallback(onChartLoad);
             $(document).ready(function () {
                 $('*[data-info]').each(function() {
-                    $(this).append('<img src="info.svg" alt="info image" class="infoImage" title="' + $(this).attr('data-info') +'">');
+                    $(this).append('<img src="info.svg" alt="info image" class="infoImage" data-toggle="tooltip" title="' + $(this).attr('data-info') + '">');
                 });
+                $('.infoImage').tooltip({});
                 $('.editable, .editable-simple').editable('option', 'validate', function (v) {
                     if (!v) return 'A value is required';
                     if (isNaN(v)) return 'Must be a number';
