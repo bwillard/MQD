@@ -73,24 +73,20 @@
                     <thead>
                         <tr>
                             <th></th>
-                            <th>Enhanced Mechanical Qualification (manual toolkits)</th>
                             <th>Qualification with MQD</th>
                         </tr>
                     </thead>
                     <tbody>
+                        <tr class="mt">
+                            <td>vs MQ (manual tools)</td>
+                            <td class="mqd"></td>
+                        </tr>
                         <tr class="pvtOr">
                             <td>vs PVT (if USP I or II)</td>
-                            <td class="mt"></td>
                             <td class="mqd"></td>
                         </tr>
                         <tr class="pvtAnd">
                             <td>vs PVT (if USP I and II)</td>
-                            <td class="mt"></td>
-                            <td class="mqd"></td>
-                        </tr>
-                        <tr class="mt">
-                            <td>vs MQ (manual tools)</td>
-                            <td>--</td>
                             <td class="mqd"></td>
                         </tr>
                     </tbody>
@@ -128,8 +124,10 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr title="Consider not only salary but associated costs (benefits, etc.)">
-                            <td>Hourly Wage</td>
+                        <tr>
+                            <td data-info="Consider not only salary but associated costs (benefits, etc.)">
+                                Hourly Wage
+                            </td>
                             <td>
                                 <a class="editable" id="hourlyCost">80</a>
                             </td>
@@ -140,18 +138,24 @@
                                 <a class="editable" id="hourlyMultiplier">1.35</a>
                             </td>
                         </tr>
-                        <tr title="Assumes 10 tests per 250 mg">
-                            <td>Cost of Prednisone Reference Standard (250 mg)</td>
+                        <tr>
+                            <td data-info="Assumes 10 tests per 250 mg">
+                                Cost of Prednisone Reference Standard (250 mg)
+                            </td>
                             <td>
                                 <a class="editable" id="costOfStandard">215</a>
                             </td>
                         </tr>
-                        <tr title="Assumes 5 tests per 30 tablets">
-                            <td>Cost of Prednisone Tablets (Qty = 30)</td>
+                        <tr>
+                            <td data-info="Assumes 5 tests per 30 tablets">
+                                Cost of Prednisone Tablets (Qty = 30)
+                            </td>
                             <td><a class="editable" id="costOfTablets">249</a></td>
                         </tr>
-                        <tr title="Assumes 50% increase in time and 6 additional Prednisone tablets when Stage 2 is tested">
-                            <td>Percentage of PVT Tests Requiring Stage 2</td>
+                        <tr>
+                            <td data-info="Assumes 50% increase in time and 6 additional Prednisone tablets when Stage 2 is tested">
+                                Percentage of PVT Tests Requiring Stage 2
+                            </td>
                             <td><a class="editable" id="percentageNeedingStageTwo">50</a></td>
                         </tr>
                     </tbody>
@@ -162,13 +166,13 @@
                     <thead>
                         <tr>
                             <th></th>
-                            <th title="Assumes bath is dedicated to either Paddles or Baskets">
+                            <th data-info="Assumes bath is dedicated to either Paddles or Baskets">
                                 PVT (USP I OR II)
                             </th>
-                            <th title="Assumes bath will be qualified for both paddles and baskets">
+                            <th data-info="Assumes bath will be qualified for both paddles and baskets">
                                 PVT (USP I AND II)
                             </th>
-                            <th title="Consider whether bath is qualified for paddles and/or baskets and the qualification time implication">
+                            <th data-info="Consider whether bath is qualified for paddles and/or baskets and the qualification time implication">
                                 Enhanced Mechanical Qualification (manual toolkits)
                             </th>
                             <th>
@@ -177,22 +181,28 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="qualTime" title="Consider preparation and testing time">
-                            <td>Time to Complete Qualification (Hours)</td>
+                        <tr class="qualTime">
+                            <td data-info="Consider preparation and testing time">
+                                Time to Complete Qualification (Hours)
+                            </td>
                             <td><a class="editable pvtOr">4</a></td>
                             <td><a class="editable pvtAnd">8</a></td>
                             <td><a class="editable mt">2</a></td>
                             <td><a class="editable mqd">.5</a></td>
                         </tr>
-                        <tr class="docTime" title="Consider transcription, data calculation, review, etc.">
-                            <td>Documentation Time (Hours)</td>
+                        <tr class="docTime">
+                            <td data-info="Consider transcription, data calculation, review, etc.">
+                                Documentation Time (Hours)
+                            </td>
                             <td><a class="editable pvtOr">2</a></td>
                             <td><a class="editable pvtAnd">2</a></td>
                             <td><a class="editable mt">2</a></td>
-                            <td title="No data transcription required.  Data calculated and evaluated automatically.  Reports need to be printed or saved as pdf"><a class="editable mqd">.1</a></td>
+                            <td data-info="No data transcription required.  Data calculated and evaluated automatically.  Reports need to be printed or saved as pdf"><a class="editable mqd">.1</a></td>
                         </tr>
-                        <tr class="qualToInvPercent" title="Consider investigations due to documentation/calculation issues, transcription errors, analyst error.">
-                            <td>Percentage of Qualifications Leading to Investigation</td>
+                        <tr class="qualToInvPercent">
+                            <td data-info="Consider investigations due to documentation/calculation issues, transcription errors, analyst error.">
+                                Percentage of Qualifications Leading to Investigation
+                            </td>
                             <td><a class="editable pvtOr">10</a></td>
                             <td><a class="editable pvtAnd">10</a></td>
                             <td><a class="editable mt">10</a></td>
@@ -210,6 +220,9 @@
             google.load("visualization", "1", { packages: ["corechart"] });
             google.setOnLoadCallback(onChartLoad);
             $(document).ready(function () {
+                $('*[data-info]').each(function() {
+                    $(this).append('<img src="info.svg" alt="info image" class="infoImage" title="' + $(this).attr('data-info') +'">');
+                });
                 $('.editable, .editable-simple').editable('option', 'validate', function (v) {
                     if (!v) return 'A value is required';
                     if (isNaN(v)) return 'Must be a number';
@@ -255,7 +268,7 @@
                 $.map(methods, function (method, index) {
                     costsPerMethod[method] = +(costs[index] * yearlyMultiple).toFixed(2);
                     $.map(methods, function (method2, index2) {
-                        if (index2 > index && index2 > 1) {
+                        if (index2 > index && index2 > 2) {
                             var savings = (costs[index] - costs[index2]) * yearlyMultiple;
                             minSavings = Math.min(savings, minSavings);
                             maxSavings = Math.max(savings, maxSavings);
