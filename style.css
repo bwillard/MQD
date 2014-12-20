@@ -76,7 +76,7 @@ and (max-width : 480px) {
         display: none;
     }
     #info-video {
-        width: 315px;
-        height: 252px;
+        width: 285px;
+        height: 228px;
     }
 }
